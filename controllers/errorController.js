@@ -9,19 +9,19 @@ const handleDuplicateFieldsDB = (err) => {
   // console.log("🤔",err.keyValue.name)
   // const value =  err.errmsg.match(/(["'])(\\?.)*?\1/)[0]
 
-  const value = err.keyValue.name
-
-  const message = `Duplicate field value: ${value}. Please use another value!`
-  return new AppError(message, 400)
-}
+  const message = `Duplicate field value: '${err.keyValue.name}'. Please use another value!`;
+  return new AppError(message, 400);
+};
 
 const handleValidationErrorDB = (err) => {
-  const errors = Object.values(err.errors).map(el => el.message)
+  const errors = Object.values(err.errors).map((el) => el.message);
 
-  const message = `Invalid input data. ${errors.join('. ')}`
-  return new AppError(message, 400)
+  const message = `Invalid input data. ${errors.join('. ')}`;
+  return new AppError(message, 400);
+};
 
-}
+const handleJWTError = () => new AppError('invalid token. please login again!', 401);
+const handleJWTExpiredError = () => new AppError('your session has expired. please login again!', 401);
 
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
@@ -34,7 +34,6 @@ const sendErrorDev = (err, res) => {
 
 const sendErrorProd = (err, res) => {
   // operational, trusted error: send message to client
-  console.log("⛔⛔⛔",err.isOperational)
   if (err.isOperational) {
     res.status(err.statusCode).json({
       status: err.status,
@@ -49,7 +48,7 @@ const sendErrorProd = (err, res) => {
     // 2) send generic message
     res.status(500).json({
       status: 'error',
-      message: 'something went wrong',
+      message: 'we are trying to fix the issue. please be patient. thank you.',
     });
   }
 };
@@ -64,9 +63,11 @@ module.exports = (err, req, res, next) => {
     let error = { ...err };
 
     if (error.name === 'CastError') error = handleCastErrorDB(error);
-    if (error.code === 11000) error = handleDuplicateFieldsDB(error)
+    if (error.code === 11000) error = handleDuplicateFieldsDB(error);
     //  if(error.name === "ValidationError") error = handleValidationErrorDB(error)
-     if(error._message === "Validation failed") error = handleValidationErrorDB(error)
+    if (error._message === 'Validation failed') error = handleValidationErrorDB(error);
+    if (error.name === 'JsonWebTokenError') error = handleJWTError();
+    if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
 
     sendErrorProd(error, res);
   }
