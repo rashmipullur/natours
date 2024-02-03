@@ -112,9 +112,15 @@ const tourSchema = new mongoose.Schema(
   },
 );
 
+// we dont use =>functionsin mongoosefor the 'this' keyword
+
 tourSchema.index({ price: 1, ratingsAverage: -1 });
 tourSchema.index({ slug: 1 });
+tourSchema.index({ startLocation: '2dsphere' });
 
+// virtual property
+// cannot be used to put business logic into models
+// cannot be used for querying data
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
