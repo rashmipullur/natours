@@ -540,6 +540,9 @@ body {
   clip-path: polygon(0 var(--section-rotate), 100% 0, 100% calc(100% - var(--section-rotate)), 0 100%);
   -webkit-clip-path: polygon(0 var(--section-rotate), 100% 0, 100% calc(100% - var(--section-rotate)), 0 100%);
 }
+.reviews::-webkit-scrollbar {
+  display: none;
+}
 
 .reviews {
   padding: 5rem 0;
