@@ -7,8 +7,8 @@
     "start": "nodemon server.js",
     "start:prod": "set NODE_ENV=production&& nodemon server.js",
     "debug": "ndb server.js",
-    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "build:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
+    "watch": "esbuild ./public/js/index.js --bundle --outfile=./public/js/bundle.js --watch",
+    "build": "esbuild ./public/js/index.js --bundle --minify --outfile=./public/js/bundle.js"
   },
   "author": "Rashmi Pullur",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "@babel/polyfill": "^7.12.1",
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -37,6 +38,7 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
+    "esbuild": "0.20.1",
     "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",

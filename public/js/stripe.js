@@ -9,14 +9,14 @@ export const bookTour = async (tourId) => {
   try {
     console.log('in stripe js  bookTour', tourId);
     // get checkout session from API
-    const session = await axios(`http://localhost:3000/api/v1/bookings/checkout-session/${tourId}`);
+    const session = await axios(`/api/v1/bookings/checkout-session/${tourId}`);
     console.log(session);
     // create checkout form + charge credit card
     await stripe.redirectToCheckout({
       sessionId: session.data.session.id,
     });
   } catch (e) {
-    console.log(e, "stripe.js")
-    showAlert('error', e.toString());
+    console.log(e, 'stripe.js');
+    showAlert('error', e);
   }
 };
