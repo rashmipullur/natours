@@ -34,18 +34,18 @@ const createAndSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const { name, email, password, passwordConfirm /*passwordChangedAt*/ } = req.body;
+  const { name, email, password, passwordConfirm } = req.body;
   const newUser = await User.create({
     name,
     email,
     password,
     passwordConfirm,
-    // passwordChangedAt,
   });
 
   const url = `${req.protocol}://${req.get('host')}/me`;
-  console.log(url);
+  // console.log(url);
   await new Email(newUser, url).sendWelcome();
+  // verify email pending ----------
 
   createAndSendToken(newUser, 201, res);
 });
