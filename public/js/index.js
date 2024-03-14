@@ -32,7 +32,7 @@ if (loginForm) {
 }
 
 if (signupForm)
-  signupForm.addEventListener('submit', e => {
+  signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;

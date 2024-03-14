@@ -32,10 +32,10 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     ],
     mode: 'payment', // accept one-time payments
     payment_method_types: ['card'],
-    // success_url: `${req.protocol}://${req.get('host')}/?my-tour=${req.params.tourId}&user=${req.user.id}&price=${
+    // success_url: `${req.protocol}://${req.get('host')}/?my-tours=${req.params.tourId}&user=${req.user.id}&price=${
     //   tour.price
     // }`,
-    success_url: `${req.protocol}://${req.get('host')}/my-tours`,
+    success_url: `${req.protocol}://${req.get('host')}/my-tours?alert=booking`,
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,
